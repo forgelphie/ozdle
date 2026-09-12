@@ -1,5 +1,5 @@
 const CONFIG = {
-  START_DATE: new Date(2026, 8, 13),
+  START_DATE: new Date(2026, 8, 12),
   END_DATE: new Date(2026, 10, 21),
   siteName: "OZDLE",
 };
