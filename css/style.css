@@ -118,12 +118,15 @@ main {
    Wordle board
    ============================================================ */
 .wordle-board {
+  --tile-size: clamp(38px, 12vw, 62px);
   display: grid;
-  /* FIX 1: Explicitly force all 6 rows to take identical 1fr height */
-  grid-template-rows: repeat(6, 1fr); 
+  grid-template-rows: repeat(6, 1fr);
   gap: 6px;
-  width: 100%;
-  max-width: calc(var(--word-length, 5) * 56px + (var(--word-length, 5) - 1) * 6px);
+  width: calc(
+    var(--word-length, 5) * var(--tile-size) +
+    (var(--word-length, 5) - 1) * 6px
+  );
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -131,44 +134,43 @@ main {
   display: grid;
   grid-template-columns: repeat(var(--word-length, 5), 1fr);
   gap: 6px;
-  /* FIX 2: Ensure rows do not grow beyond their track */
-  height: 100%;
-  align-items: center;
 }
 
 .wordle-tile {
   aspect-ratio: 1 / 1;
   width: 100%;
-  min-height: 0; /* Prevents text line-height from blowing out tile height */
+  min-width: 0;
+  min-height: 0;
   border: 2px solid var(--line);
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-size: clamp(1.1rem, 4vw, 1.6rem);
+  font-size: clamp(1rem, 5.5vw, 1.6rem);
   font-weight: 600;
-  line-height: 1; /* Locks character vertical height */
+  line-height: 1;
   color: var(--parchment);
   transition: background-color 0.25s ease, border-color 0.25s ease;
   box-sizing: border-box;
 }
 
-.wordle-tile.filled { 
-  border-color: var(--gold); 
+.wordle-tile.filled {
+  border-color: var(--gold);
 }
 
 .wordle-tile.correct { background: var(--emerald); border-color: var(--emerald); }
 .wordle-tile.present { background: var(--rose); border-color: var(--rose); }
-.wordle-tile.absent { background: rgba(255,255,255,0.05); border-color: transparent; opacity: 0.6; }
+.wordle-tile.absent  { background: rgba(255,255,255,0.05); border-color: transparent; opacity: 0.6; }
 
 .current-row .wordle-tile.just-typed {
   animation: pop 0.1s ease;
 }
-@keyframes pop { 
-  0% { transform: scale(0.95); } 
-  50% { transform: scale(1.02); }
-  100% { transform: scale(1); } 
+
+@keyframes pop {
+  0%   { transform: scale(0.95); }
+  50%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
 }
 
 /* Keyboard */
