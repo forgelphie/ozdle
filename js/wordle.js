@@ -106,39 +106,60 @@ class WordleGame {
 }
 
 function renderWordleBoard(container, game) {
-  container.innerHTML = "";
-  const board = document.createElement("div");
-  board.className = "wordle-board";
+  let board = container.querySelector(".wordle-board");
+  if (!board) {
+    board = document.createElement("div");
+    board.className = "wordle-board";
+    for (let r = 0; r < game.maxGuesses; r++) {
+      const row = document.createElement("div");
+      row.className = "wordle-row";
+      for (let i = 0; i < game.length; i++) {
+        row.appendChild(document.createElement("div")).className = "wordle-tile";
+      }
+      board.appendChild(row);
+    }
+    container.appendChild(board);
+  }
   board.style.setProperty("--word-length", game.length);
 
-  for (let r = 0; r < game.maxGuesses; r++) {
-    const row = document.createElement("div");
-    row.className = "wordle-row";
+  const currentRowIndex = game.status === "playing" ? game.guesses.length : -1;
+
+  Array.from(board.children).forEach((row, r) => {
     const guessObj = game.guesses[r];
-    const isCurrentRow = r === game.guesses.length && game.status === "playing";
+    const isCurrentRow = r === currentRowIndex;
+    row.classList.toggle("current-row", isCurrentRow);
+
     const rowLetters = guessObj
       ? guessObj.word.split("")
       : isCurrentRow
       ? game.current.padEnd(game.length, " ").split("")
       : new Array(game.length).fill(" ");
 
-    rowLetters.forEach((letter, i) => {
-      const tile = document.createElement("div");
-      tile.className = "wordle-tile";
-      if (guessObj) {
-        tile.classList.add(guessObj.result[i]);
-        tile.style.transitionDelay = `${i * 120}ms`;
-      } else if (letter.trim()) {
-        tile.classList.add("filled");
-      }
+    Array.from(row.children).forEach((tile, i) => {
+      const letter = rowLetters[i];
       tile.textContent = letter.trim();
-      row.appendChild(tile);
-    });
+      tile.classList.remove("filled", "just-typed", "correct", "present", "absent");
 
-    if (isCurrentRow) row.classList.add("current-row");
-    board.appendChild(row);
-  }
-  container.appendChild(board);
+      if (guessObj) {
+        if (tile.dataset.revealedFor !== guessObj.word) {
+          tile.style.transitionDelay = `${i * 120}ms`;
+          tile.dataset.revealedFor = guessObj.word;
+          requestAnimationFrame(() => tile.classList.add(guessObj.result[i]));
+        } else {
+          tile.classList.add(guessObj.result[i]);
+        }
+      } else {
+        tile.style.transitionDelay = "";
+        delete tile.dataset.revealedFor;
+        if (letter.trim()) {
+          tile.classList.add("filled");
+          if (isCurrentRow && i === game.current.length - 1) {
+            tile.classList.add("just-typed");
+          }
+        }
+      }
+    });
+  });
 }
 
 function renderWordleKeyboard(container, game, onKey) {
