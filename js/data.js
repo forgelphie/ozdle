@@ -6,7 +6,6 @@ const CONFIG = {
 
 
 const WORDLE_WORDS = [
-  "HUNG",
   "ELPHABA",
   "GOOD",
   "NESSA",
@@ -23,6 +22,7 @@ const WORDLE_WORDS = [
   "ARIANA",
   "GREEN",
   "CYNTHIA",
+  "HUNG",
   "DOOR",
   "ELPHIE",
   "MARCH",
