@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<title>OZDLE: a Wicked daily puzzle</title>
+<meta name="description" content="A daily Wordle and Squaredle, Wicked-themed, one new puzzle every day." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <h1 class="wordmark">OZ<span>DLE</span></h1>
+  <div class="header-actions">
+    <button id="help-btn" class="icon-btn" aria-label="How to play" title="How to play">?</button>
+    <button id="calendar-btn" class="icon-btn" aria-label="Puzzle archive" title="Puzzle archive">🗓</button>
+  </div>
+</header>
+
+<section id="puzzle-meta" class="puzzle-meta"></section>
+
+<main id="game-root"></main>
+
+<footer>
+  Made by forgelphie.
+</footer>
+
+<!-- Calendar modal -->
+<div id="calendar-backdrop" class="modal-backdrop">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <h2>Puzzle Archive</h2>
+    <p>Play any puzzle from a day that's already happened. Future days stay locked until it's their turn.</p>
+    <div id="calendar-body"></div>
+    <div class="calendar-legend">
+      <span><span class="legend-dot" style="background:var(--rose)"></span>Wordle</span>
+      <span><span class="legend-dot" style="background:var(--gold)"></span>Squaredle</span>
+      <span><span class="legend-dot" style="background:var(--emerald)"></span>Completed</span>
+    </div>
+  </div>
+</div>
+
+<!-- How to play modal -->
+<div id="help-backdrop" class="modal-backdrop">
+  <div class="modal how-to-play">
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <h2>How To Play</h2>
+    <p><strong>Wordle</strong> : Guess the hidden word in six tries or less. Type letters and press Enter to submit a guess. After each guess, the tiles change color:</p>
+    <p>
+      <span class="tile-demo">
+        <span style="background:var(--emerald)">E</span>
+        <span style="background:var(--rose)">G</span>
+        <span style="background:rgba(255,255,255,0.08)">W</span>
+      </span>
+    </p>
+    <ul>
+      <li><strong>Green</strong> — right letter, right spot.</li>
+      <li><strong>Pink</strong> — right letter, wrong spot.</li>
+      <li><strong>Gray</strong> — the letter isn't in the word.</li>
+    </ul>
+    <p>Word length changes daily — sometimes four letters, sometimes seven.</p>
+    <p><strong>Squaredle</strong> — Find every hidden word in the 4x4 grid for that day's theme. Drag (or swipe on mobile) through connected letters — up, down, sideways, or diagonally — to trace a word, or just type it and press Enter. Once every word running through a square has been found, that square fades out.</p>
+    <p>Use the <strong>archive</strong> (the calendar icon) to play any puzzle from a day that's already passed.</p>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/schedule.js"></script>
+<script src="js/wordle.js"></script>
+<script src="js/squaredle.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
