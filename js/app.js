@@ -159,7 +159,7 @@ function shareWordleResults(entry, game) {
   });
 
   const emojiMap = {
-    correct: "🟩",
+    correct: "💚",
     present: "🩷",
     absent: "🖤"
   };
