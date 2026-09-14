@@ -171,6 +171,7 @@ function shareWordleResults(entry, game) {
   copyToClipboard(shareText);
 }
 
+/* ---- SQUAREDLE ---- */
 
 function renderSquaredlePuzzle(root, entry, key) {
   const saved = loadState(key);
@@ -278,7 +279,7 @@ function shareSquaredleResults(entry, seconds) {
   copyToClipboard(shareText);
 }
 
-/* ---- KEYBOARD & UTILITIES ---- */
+/* ---- KEYBOARD, CLIPBOARD & UTILITIES ---- */
 
 document.addEventListener("keydown", e => {
   const modalOpen = Array.from(document.querySelectorAll(".modal-backdrop")).some(m => m.classList.contains("open"));
@@ -299,6 +300,18 @@ document.addEventListener("keydown", e => {
 });
 
 function copyToClipboard(text) {
+  if (navigator.share) {
+    navigator.share({ text: text })
+      .then(() => flashMessage("Shared successfully!"))
+      .catch((err) => {
+        if (err.name !== "AbortError") writeToClipboard(text);
+      });
+    return;
+  }
+  writeToClipboard(text);
+}
+
+function writeToClipboard(text) {
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(text)
       .then(() => flashMessage("Copied results to clipboard!"))
@@ -326,15 +339,14 @@ function fallbackCopy(text) {
 }
 
 function flashMessage(msg) {
-  const meta = document.getElementById("puzzle-meta");
-  const note = document.createElement("p");
-  note.className = "archive-note";
-  note.textContent = msg;
-  meta.appendChild(note);
-  setTimeout(() => note.remove(), 2000);
+  const toast = document.createElement("div");
+  toast.className = "toast-message";
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2000);
 }
 
-/* ---- Calendar ---- */
+/* ---- CALENDAR & MODALS ---- */
 
 function buildCalendarHTML() {
   const months = [
