@@ -152,25 +152,40 @@ function renderWordlePuzzle(root, entry, key) {
 }
 
 function shareWordleResults(entry, game) {
-  const formattedDate = selectedDate.toLocaleDateString(undefined, { month: "numeric", day: "numeric", year: "2-digit" });
+  const formattedDate = selectedDate.toLocaleDateString(undefined, {
+    month: "numeric",
+    day: "numeric",
+    year: "2-digit"
+  });
 
   const emojiMap = {
-    correct: "💚",
+    correct: "🟩",
     present: "🩷",
     absent: "🖤"
   };
 
-  const gridText = game.guesses.map(guess => {
-    const colors = game.evaluateGuess(guess);
-    return colors.map(c => emojiMap[c] || "🖤").join("");
-  }).join("\n");
+  const gridText = game.guesses
+    .map(guessObj => {
+      return guessObj.result
+        .map(result => emojiMap[result] || "🖤")
+        .join("");
+    })
+    .join("\n");
 
-  const scoreText = game.status === "won" ? `${game.guesses.length}/${game.maxGuesses}` : "X/6";
-  const shareText = `Ozdle 🧹🫧\n\n${formattedDate}\n#${scoreText}\n${gridText}\n\n${window.location.href.split('?')[0]}`;
+  const scoreText =
+    game.status === "won"
+      ? `${game.guesses.length}/${game.maxGuesses}`
+      : "X/6";
+
+  const shareText =
+    `Ozdle 🧹🫧\n` +
+    `${formattedDate}\n` +
+    `#${scoreText}\n` +
+    `${gridText}\n\n` +
+    `${window.location.href.split("?")[0]}`;
 
   copyToClipboard(shareText);
 }
-
 /* ---- SQUAREDLE ---- */
 
 function renderSquaredlePuzzle(root, entry, key) {
