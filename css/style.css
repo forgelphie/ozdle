@@ -114,6 +114,7 @@ main {
   padding: 1rem;
   gap: 1.25rem;
 }
+
 /* ============================================================
    Wordle board
    ============================================================ */
@@ -193,7 +194,6 @@ main {
 .key.correct { background: var(--emerald); }
 .key.present { background: var(--rose); }
 .key.absent { background: rgba(255,255,255,0.04); opacity: 0.5; }
-
 
 /* ============================================================
    Squaredle
@@ -285,8 +285,9 @@ main {
 }
 .status-banner.won { background: rgba(63, 158, 94, 0.18); color: var(--emerald-bright); border: 1px solid var(--emerald-bright); }
 .status-banner.lost { background: rgba(214, 51, 108, 0.18); color: var(--rose); border: 1px solid var(--rose); }
+
 /* ============================================================
-   Share Button & Timer Additions
+   Share Button & Floating Toast
    ============================================================ */
 .squaredle-timer {
   font-family: var(--font-display);
@@ -319,6 +320,23 @@ main {
 
 .share-btn:active {
   transform: scale(0.96);
+}
+
+.toast-message {
+  position: fixed;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-panel);
+  color: var(--parchment);
+  border: 1px solid var(--gold);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  pointer-events: none;
 }
 
 /* ============================================================
